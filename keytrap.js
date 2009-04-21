@@ -11,13 +11,13 @@
 // TODO: how best to apply this css rule via javascript?
 // #keytrap::-moz-focus-inner { border: 0 !important; } 
 
-var Keytrap = function(id){
-  if(!id) id='keytrap';
-  this.id = id;
-  var $document = $(document);
-  $document.append('<input id="'+id+'" type="text" />');
-  var $keytrap = $('#'+id);
-  $keytrap.css({
+var Keytrap = function(input_id){
+  var keytrap = this;
+  keytrap.input_id = input_id ? input_id : 'keytrap';
+  keytrap.enabled = false;
+  $('body').append('<input id="'+keytrap.input_id+'" type="text" />');
+  var $input = keytrap.$input = $('#'+keytrap.input_id);
+  $input.css({
     'border'   : 'none',
     'color'    : 'white',
     'height'   : '1px',
@@ -25,26 +25,27 @@ var Keytrap = function(id){
     'top'      : '-100px',
     'width'    : '1px'
   }).attr('autocomplete','off');
+  var $document = $(document);
   $document.click(function(){
-    if(this.on) $keytrap.focus();
+    if(keytrap.enabled) $input.focus();
   });
   $document.keydown(function(e){
-    if(this.on) {
-      $keytrap.focus();
+    if(keytrap.enabled) {
+      $input.focus();
       var code = (e.keyCode ? e.keyCode : e.which);
-      if(this.keydown) return this.keydown(code);
+      if(keytrap.keydown) return keytrap.keydown(code);
     }
     return true;
-  })
+  });
+  return this;
 };
 
 Keytrap.prototype={
   'disable' : function(){
-    this.on = false;
+    this.enabled = false;
   },
   'enable'  : function(){
-    this.on = true;
-    $('#'+id).focus();
-  },
-  'on' : false
+    this.enabled = true;
+    this.$input.focus();
+  }
 };
