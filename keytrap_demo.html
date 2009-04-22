@@ -1,19 +1,22 @@
 <html>
   <head>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript" src="keytrap.js?b"></script>
+    <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="keytrap.js"></script>
     <script type="text/javascript">
-      var keytrap=null;
       $(function(){
-        keytrap = new Keytrap();
-        keytrap.keydown = function(code){
-          $('body').append('keydown("'+code+'") ');
-        }
+        var keytrap = new Keytrap();
+        keytrap.keydown(function(code){
+          $('#pressed_keys').html(keytrap.pressed.toString());
+        });
+        keytrap.keyup(function(code){
+          $('#pressed_keys').html(keytrap.pressed.toString());
+        });
         keytrap.enable();
       });
     </script>
   </head>
   <body>
     <p>Keytrap demo.</p>
+    <p>Here are the list of pressed keys: <span id="pressed_keys">___</span></p>
   </body>
 </html>

@@ -1,0 +1,5 @@
+= keytrap.js
+
+This is a simple abstraction for dealing with issues around trapping keyboard input in the browser.
+
+Requires jquery (tested with 1.3.2 but may work with earlier versions.)
